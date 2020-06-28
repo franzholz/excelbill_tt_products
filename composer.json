@@ -1,0 +1,31 @@
+{
+    "name": "jambagecom/excelbill-tt-products",
+    "type": "typo3-cms-extension",
+    "description": "Send an Excel generated bill for orders with tt_products",
+    "homepage": "https://jambage.com",
+    "license": [
+        "GPL-2.0-or-later"
+    ],
+    "keywords": ["TYPO3 CMS", "Excel", "tt_products"],
+    "support": {
+        "issues": "https://jambage.com/kontakt/forum.html"
+    },
+    "require": {
+        "typo3/cms-core": ">=7.6.0,<=9.5.99",
+        "jambagecom/div2007": ">=1.10.27,<2"
+	},
+	"autoload": {
+        "psr-4": {
+            "JambageCom\\ExcelbillTtProducts\\": "Classes/"
+        }
+    },
+    "replace": {
+        "jambagecom/excelbill-tt-products": "self.version",
+        "typo3-ter/excelbill-tt-products": "self.version"
+    },
+    "extra": {
+        "typo3/cms": {
+        "extension-key": "excelbill_tt_products"
+        }
+    }
+}

@@ -1,0 +1,3 @@
+  # cat=basic/enable; type=string; label=PhpSpreadsheet path: Relative path to the PhpSpreadsheet library. If you have put it directly under your apache root folder, e.g. public_html in the subfolder Vendor/PhpSpreadsheet/src/PhpSpreadsheet/. Use typo3conf/ext/base_excel/Vendor/PhpSpreadsheet/src/PhpSpreadsheet/ if you use the extension base_excel.
+libraryPath = typo3conf/ext/base_excel/Vendor/PhpSpreadsheet/src/PhpSpreadsheet/
+
