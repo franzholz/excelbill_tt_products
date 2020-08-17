@@ -1,0 +1,13 @@
+##
+## @package TYPO3
+## @subpackage excelbill_tt_products
+##
+
+
+lib.excelbill_tt_products {
+
+  basket.view {
+      showAmount =
+  }
+}
+

@@ -1,5 +1,6 @@
-
+2020-08-17 Franz Holzinger <franz@ttproducts.de>
+    * new feature: use a marker inside of the tt_products basket view
+    * new feature: add its own TypoScript
 
 2020-06-28 Franz Holzinger <franz@ttproducts.de>
-
     * initial code

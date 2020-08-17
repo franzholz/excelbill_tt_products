@@ -7,7 +7,7 @@ call_user_func(function () {
         define('EXCELBILL_TT_PRODUCTS_EXT', 'excelbill_tt_products');
     }
 
-    $extensionConfiguration = array();
+    $extensionConfiguration = [];
 
     if (
         defined('TYPO3_version') &&
@@ -20,10 +20,14 @@ call_user_func(function () {
         $extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][EXCELBILL_TT_PRODUCTS_EXT]);
     }
 
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][EXCELBILL_TT_PRODUCTS_EXT] = $extensionConfiguration;
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][EXCELBILL_TT_PRODUCTS_EXT]['libraryPath'] = PATH_site . $extensionConfiguration['libraryPath'] . '/';
 
+    // hooks:
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products']['bill'][] =
-    'JambageCom\\ExcelbillTtProducts\\Hooks\\Bill';
-});
+    \JambageCom\ExcelbillTtProducts\Hooks\Bill::class;
 
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products']['getBasketView'][] =
+    \JambageCom\ExcelbillTtProducts\Hooks\BasketViewAdder::class;    
+});
 

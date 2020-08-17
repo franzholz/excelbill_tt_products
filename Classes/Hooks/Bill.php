@@ -16,7 +16,7 @@ namespace JambageCom\ExcelbillTtProducts\Hooks;
 */
 
 /**
-* Bill class to generate a PDF bill for tt_products
+* Bill class to generate an EXCEL bill for tt_products
 *
 * USE:
 * The class is intended to be used as a hook for tt_products.
@@ -39,7 +39,7 @@ use JambageCom\ExcelbillTtProducts\Reader\BillReadFilter;
 
 class Bill implements \TYPO3\CMS\Core\SingletonInterface {
 
-    public $LOCAL_LANG = array();		// Local Language content
+    public $LOCAL_LANG = [];		// Local Language content
     public $extensionKey = EXCELBILL_TT_PRODUCTS_EXT;
 
     public function replaceMarkerArray ($cellValue, $billMarkerArray)
@@ -157,7 +157,7 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
                                 $useArticles
                             );
 
-                            $extArray = array();
+                            $extArray = [];
                             $hiddenFields = '';
                             $rowContent = $basketItemViewApi->generateItemView(
                                 $hiddenFields,
@@ -215,7 +215,7 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
         $useArticles,
         $theCode
     )
-    {
+    {    
         $orderUid = 0;
         $result = false;
         $parts = ['address', 'header', 'order', 'footer'];
@@ -227,8 +227,8 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
         if($orderUid) {
-            $errorCode = array();
-            $localConf = array();
+            $errorCode = [];
+            $localConf = [];
             if (isset($generationConf['conf.'])) {
                 $localConf = $generationConf['conf.'];
             }
@@ -316,13 +316,17 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
                 foreach ($columns as $column) {
                     for ($row = $startRow; $row <= $endRow; ++$row) {
                         $key = $column . $row;
+                                debug ($key, '$key');
+
                         $cellValue = $spreadsheet->getActiveSheet()->getCell($key)->getValue();
+                                debug ($cellValue, '$cellValue Pos 1');
                         if ($partElement == 'order') {
                             $originalCellValues[$row][$column] = $cellValue;
                             continue;
                         }
 
                         $cellValue = $this->replaceMarkerArray($cellValue, $billMarkerArray);
+                                debug ($cellValue, '$cellValue Pos 2');
                         $spreadsheet->getActiveSheet()->setCellValue($key, $cellValue);
                     }
                 }

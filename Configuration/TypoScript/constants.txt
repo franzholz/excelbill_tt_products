@@ -1,0 +1,9 @@
+##
+## @package TYPO3
+## @subpackage tt_products
+##
+
+
+lib.excelbill_tt_products {
+
+}
