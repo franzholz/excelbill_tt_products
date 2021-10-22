@@ -40,7 +40,7 @@ class BasketViewAdder implements \TYPO3\CMS\Core\SingletonInterface {
         $count
     )
     {
-        $markerArray['###INPUT_HOOKS###'] = 'EXCEL Quotation'; // TODO
+        $markerArray['###INPUT_HOOKS###'] = 'EXCEL Bill';
     }
 }
 
