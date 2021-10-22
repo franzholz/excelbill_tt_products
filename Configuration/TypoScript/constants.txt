@@ -5,5 +5,8 @@
 
 
 lib.excelbill_tt_products {
-
+     billFilename = bill_###ORDER_BILL_NO###_###ORDER_DATE_IN_FILENAME###
+     dateInFilename = Y-m-d_His
 }
+
+

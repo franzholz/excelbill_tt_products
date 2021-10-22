@@ -6,8 +6,7 @@
 
 lib.excelbill_tt_products {
 
-  basket.view {
-      showAmount =
-  }
+  billFilename = {$lib.excelbill_tt_products.billFilename}
+  dateInFilename = {$lib.excelbill_tt_products.dateInFilename}
 }
 

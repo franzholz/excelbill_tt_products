@@ -31,6 +31,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 use JambageCom\ExcelbillTtProducts\Model\Cell;
 use JambageCom\ExcelbillTtProducts\Reader\BillReadFilter;
@@ -41,7 +42,21 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
 
     public $LOCAL_LANG = [];		// Local Language content
     public $extensionKey = EXCELBILL_TT_PRODUCTS_EXT;
+    protected $conf = [];
 
+    public function __construct ()
+    {
+        $tsfe = $this->getTypoScriptFrontendController();
+        if (isset($tsfe->tmpl->setup['lib.']['excelbill_tt_products.'])) {
+            $this->conf = $tsfe->tmpl->setup['lib.']['excelbill_tt_products.'];
+        }
+    }
+    
+    public function getConf ()
+    {
+        return $this->conf;
+    }
+    
     public function replaceMarkerArray ($cellValue, $billMarkerArray)
     {
         $result = $cellValue;
@@ -195,6 +210,7 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
             $worksheet->removeRow($row);
         }
         $lineOffset -= $lineOffsetIncrease;
+        
         return $lineOffset;
     }
 
@@ -215,7 +231,12 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
         $useArticles,
         $theCode
     )
-    {    
+    {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+
+        $conf = $this->getConf();
+        $generationConf = array_merge_recursive($conf, $generationConf);
+
         $orderUid = 0;
         $result = false;
         $parts = ['address', 'header', 'order', 'footer'];
@@ -282,6 +303,7 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
             if (!isset($markerArray['###ORDER_BILL_NO###'])) {
                 $billMarkerArray['###ORDER_BILL_NO###']  = $orderArray['bill_no'];
             }
+            $billMarkerArray['###ORDER_DATE_IN_FILENAME###'] = date($generationConf['dateInFilename'], time());
 
             if (!isset($billMarkerArray['###ORDER_DATE###'])) {
                 $billMarkerArray['###ORDER_DATE###'] = date('d.m.Y', time());
@@ -301,6 +323,7 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
             foreach ($translationArray as $key => $translationPart) {
                 $billMarkerArray['###' . strtoupper($key) . '###'] = $translationPart[0]['target'];
             }
+
             $templateFile = $localConf['templateFile'] ? $localConf['templateFile'] : 'EXT:' . $this->extensionKey . '/Resources/Private/example.xls';
             $spreadsheet = IOFactory::load($templateFile);
             $lineOffset = 0;
@@ -316,17 +339,13 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
                 foreach ($columns as $column) {
                     for ($row = $startRow; $row <= $endRow; ++$row) {
                         $key = $column . $row;
-                                debug ($key, '$key');
-
                         $cellValue = $spreadsheet->getActiveSheet()->getCell($key)->getValue();
-                                debug ($cellValue, '$cellValue Pos 1');
                         if ($partElement == 'order') {
                             $originalCellValues[$row][$column] = $cellValue;
                             continue;
                         }
 
                         $cellValue = $this->replaceMarkerArray($cellValue, $billMarkerArray);
-                                debug ($cellValue, '$cellValue Pos 2');
                         $spreadsheet->getActiveSheet()->setCellValue($key, $cellValue);
                     }
                 }
@@ -347,12 +366,22 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
             }
 
             $writer = IOFactory::createWriter($spreadsheet, 'Xls');
-            $outFile = $path . 'Order-' . $orderUid . '.xls';
+            $outFilename = $templateService->substituteMarkerArray($generationConf['billFilename'],  $billMarkerArray);
+
+            $outFile = $path . $outFilename . '.xls';
             $writer->save($outFile);
             $result = PATH_site . $outFile;
         }
 
         return $result;
+    }
+    
+    /**
+     * @return TypoScriptFrontendController
+     */
+    protected function getTypoScriptFrontendController(): TypoScriptFrontendController
+    {
+        return $GLOBALS['TSFE'];
     }
 }
 

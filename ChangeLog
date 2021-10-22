@@ -1,3 +1,6 @@
+2020-08-18 Franz Holzinger <franz@ttproducts.de>
+    * new feature: make the name of the generated xls file configurable in the setup
+
 2020-08-17 Franz Holzinger <franz@ttproducts.de>
     * new feature: use a marker inside of the tt_products basket view
     * new feature: add its own TypoScript
