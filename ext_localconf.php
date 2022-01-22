@@ -7,21 +7,12 @@ call_user_func(function () {
         define('EXCELBILL_TT_PRODUCTS_EXT', 'excelbill_tt_products');
     }
 
-    $extensionConfiguration = [];
-
-    if (
-        defined('TYPO3_version') &&
-        version_compare(TYPO3_version, '9.0.0', '>=')
-    ) {
-        $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
-        )->get(EXCELBILL_TT_PRODUCTS_EXT);
-    } {
-        $extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][EXCELBILL_TT_PRODUCTS_EXT]);
-    }
+    $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+    )->get(EXCELBILL_TT_PRODUCTS_EXT);
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][EXCELBILL_TT_PRODUCTS_EXT] = $extensionConfiguration;
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][EXCELBILL_TT_PRODUCTS_EXT]['libraryPath'] = PATH_site . $extensionConfiguration['libraryPath'] . '/';
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][EXCELBILL_TT_PRODUCTS_EXT]['libraryPath'] = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $extensionConfiguration['libraryPath'] . '/';
 
     // hooks:
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products']['bill'][] =

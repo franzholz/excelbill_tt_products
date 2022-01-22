@@ -11,8 +11,8 @@
         "issues": "https://jambage.com/kontakt/forum.html"
     },
     "require": {
-        "typo3/cms-core": "^7.6 || ^8.7 || ^9.5",
-        "jambagecom/div2007": "^1.10.27 || ^1.11"
+        "typo3/cms-core": "^9.5 || ^10.4 || ^11.5",
+        "jambagecom/div2007": "^1.11"
 	},
 	"autoload": {
         "psr-4": {
@@ -20,7 +20,6 @@
         }
     },
     "replace": {
-        "jambagecom/excelbill-tt-products": "self.version",
         "typo3-ter/excelbill-tt-products": "self.version"
     },
     "extra": {

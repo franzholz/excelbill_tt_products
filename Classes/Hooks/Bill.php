@@ -370,7 +370,7 @@ class Bill implements \TYPO3\CMS\Core\SingletonInterface {
 
             $outFile = $path . $outFilename . '.xls';
             $writer->save($outFile);
-            $result = PATH_site . $outFile;
+            $result = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $outFile;
         }
 
         return $result;

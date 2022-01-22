@@ -1,3 +1,6 @@
+2022-01-22 Franz Holzinger <franz@ttproducts.de>
+    * support for TYPO3 11.5 and PHP 8
+
 2020-08-18 Franz Holzinger <franz@ttproducts.de>
     * new feature: make the name of the generated xls file configurable in the setup
 
